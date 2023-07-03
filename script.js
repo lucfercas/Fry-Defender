@@ -1,5 +1,5 @@
 window.addEventListener('load', function(){
-    const canvas = document.getElementById("game")
+    const canvas = document.getElementById("canvas1")
     const ctx = canvas.getContext('2d')
     canvas.width = 500
     canvas.height = 500
@@ -35,13 +35,16 @@ window.addEventListener('load', function(){
     class Player {
         constructor(game){
             this.game = game
-            this.width = //ancho of frame del sprite
-            this.height = //alto "..."
+            this.width = 50//ancho of frame del sprite
+            this.height = 50 //alto "..."
             this.x = 20
             this.y = 100
-            this.speedY = 0
+            this.speedY = 2
         }
         update(){
+            if(this.game.keys.includes('ArrowUp')) this.speedY = -1
+            else if (this.game.keys.includes('ArrowDown')) this.speedY = 1
+            else this.speedY = 0
             this.y += this.speedY
         }
         draw(context){
@@ -86,6 +89,7 @@ window.addEventListener('load', function(){
     const game = new Game(canvas.width, canvas.height)
     //animation loop
     function animate(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
         game.update()
         game.draw(ctx)
         requestAnimationFrame(animate)
