@@ -8,7 +8,7 @@ window.addEventListener('load', function(){
         constructor(game){
             this.game = game
             window.addEventListener('keydown', e => {
-                if(e.key === 'ArrowUp'){
+                if(( (e.key === 'ArrowUp') || (e.key === 'ArrowDown')) && this.game.keys.indexOf(e.key) === -1){
                     this.game.keys.push(e.key)
                 }
                 console.log(this.game.keys)
@@ -17,6 +17,7 @@ window.addEventListener('load', function(){
                 if(this.game.keys.indexOf(e.key) > -1){
                     this.game.keys.splice(this.game.keys.indexOf(e.key), 1)
                 }
+                console.log(this.game.keys)
             })
         }
     }
