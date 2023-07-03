@@ -85,7 +85,10 @@ window.addEventListener('load', function(){
     class Enemy {
         constructor(game){
             this.game = game
+            this.width = 80
+            this.height = 80
             this.x = this.game.width
+            this.y = Math.random() * (this.game.height * 0.9 - this.height)
             this.speedX = Math.random() * -1.5 -0.5
             this.markedForDeletion = false
 
@@ -124,21 +127,44 @@ window.addEventListener('load', function(){
             this.player = new Player(this)
             this.input = new InputHandler(this)
             this.keys = []
+            this.enemies = []
+            this.enemyTimer = 0
+            this.enemyInterval = 1000
+            this.gameOver = false
         }
-        update(){
+        update(deltaTime){
             this.player.update()
+            this.enemies.forEach(enemy =>{
+                enemy.update()
+            })
+            this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion)
+            if (this.enemyTimer > this.enemyInterval && !this.gameOver){
+               this.addEnemy()
+               this.enemyTimer = 0 
+            } else {
+                this.enemyTimer += deltaTime
+            }
         }
         draw(context){
             this.player.draw(context)
+            this.enemies.forEach(enemy => {
+                enemy.draw(context)
+            })
+        }
+        addEnemy(){
+            this.enemies.push(new Enemy(this))
         }
     }
     const game = new Game(canvas.width, canvas.height)
+    let lastTime = 0
     //animation loop
-    function animate(){
+    function animate(timeStamp){
+        const deltaTime = timeStamp - lastTime
+        lastTime = timeStamp
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        game.update()
+        game.update(deltaTime)
         game.draw(ctx)
         requestAnimationFrame(animate)
     }
-    animate()
+    animate(0)
 })
