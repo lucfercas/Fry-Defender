@@ -91,6 +91,9 @@ window.addEventListener('load', function(){
             this.y = Math.random() * (this.game.height * 0.9 - this.height)
             this.speedX = Math.random() * -1.5 -0.5
             this.markedForDeletion = false
+            this.lives = 1
+            this.score = this.lives
+
 
         }
         update(){
@@ -102,6 +105,9 @@ window.addEventListener('load', function(){
         draw(context){
             context.fillStyle = 'red'
             context.fillRect(this.x, this.y, this.width, this.height)
+            context.fillStyle = 'black'
+            context.font = '20px Helvetica'
+            context.fillText(this.lives, this.x, this.y)
 
         }
 
@@ -136,6 +142,19 @@ window.addEventListener('load', function(){
             this.player.update()
             this.enemies.forEach(enemy =>{
                 enemy.update()
+                if(this.checkCollision(this.player, enemy)){
+                    enemy.markedForDeletion = true
+                }
+                this.player.projectiles.forEach(projectile => {
+                    if(this.checkCollision(projectile, enemy)){
+                        enemy.lives--
+                        projectile.markedForDeletion = true
+                        if(enemy.lives <= 0){
+                            enemy.markedForDeletion = true
+                            this.score += 10
+                        }
+                    }
+                })
             })
             this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion)
             if (this.enemyTimer > this.enemyInterval && !this.gameOver){
@@ -144,6 +163,7 @@ window.addEventListener('load', function(){
             } else {
                 this.enemyTimer += deltaTime
             }
+
         }
         draw(context){
             this.player.draw(context)
