@@ -123,6 +123,18 @@ window.addEventListener('load', function(){
 
     class UI {
         // Clock, timer and other info
+        // constructor(game){
+        //     this.game = game
+        //     this.fontSize = 25
+        //     this.fontFamily = 'Helvetica'
+        //     this.color = 'black'
+        // }
+        // draw(context){
+        //     //score
+        //     context.fillStyle = this.color
+        //     context.font = this.fontSize + 'px ' + this.fontFamily
+        //     context.fillText('Score: ' + this.game.score, 20, 40)
+        // }
     }
 
     class Game {
@@ -137,6 +149,8 @@ window.addEventListener('load', function(){
             this.enemyTimer = 0
             this.enemyInterval = 1000
             this.gameOver = false
+            this.score = 0
+            this.winningScore = 10
         }
         update(deltaTime){
             this.player.update()
@@ -151,7 +165,8 @@ window.addEventListener('load', function(){
                         projectile.markedForDeletion = true
                         if(enemy.lives <= 0){
                             enemy.markedForDeletion = true
-                            this.score += 10
+                            this.score += enemy.score
+                            if (this.score > this.winningScore) this.gameOver = true
                         }
                     }
                 })
