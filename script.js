@@ -123,18 +123,40 @@ window.addEventListener('load', function(){
 
     class UI {
         // Clock, timer and other info
-        // constructor(game){
-        //     this.game = game
-        //     this.fontSize = 25
-        //     this.fontFamily = 'Helvetica'
-        //     this.color = 'black'
-        // }
-        // draw(context){
-        //     //score
-        //     context.fillStyle = this.color
-        //     context.font = this.fontSize + 'px ' + this.fontFamily
-        //     context.fillText('Score: ' + this.game.score, 20, 40)
-        // }
+        constructor(game){
+            this.game = game
+            this.fontSize = 25
+            this.fontFamily = 'Helvetica'
+            this.color = 'black'
+        }
+        draw(context){
+            //score
+            context.fillStyle = this.color
+            context.font = this.fontSize + 'px ' + this.fontFamily
+            context.fillText('Score: ' + this.game.score, 20, 40)
+
+            //game over msgs
+            if (this.game.gameOver){
+                context.textAlign = 'center'
+                let message1
+                let message2
+                if(this.game.score > this.game.winningScore){
+                    message1 = 'You win!'
+                    message2 = 'Well done!'
+                } else {
+                    message1 = 'You lose!'
+                    message2 = 'Try again next time!'
+                }
+                context.font = '50px ' + this.fontFamily
+                context.fillText(message1, this.game.width * 0.5, this.game.height * 0.5 - 40)
+                context.font = '25px ' + this.fontFamily
+                context.fillText(message2, this.game.width * 0.5, this.game.height * 0.5 + 40)
+            }
+            context.restore()
+        }
+
+        
+        
     }
 
     class Game {
@@ -144,6 +166,7 @@ window.addEventListener('load', function(){
             this.height = height
             this.player = new Player(this)
             this.input = new InputHandler(this)
+            this.ui = new UI(this)
             this.keys = []
             this.enemies = []
             this.enemyTimer = 0
@@ -185,6 +208,7 @@ window.addEventListener('load', function(){
             this.enemies.forEach(enemy => {
                 enemy.draw(context)
             })
+            this.ui.draw(context)
         }
         addEnemy(){
             this.enemies.push(new Enemy(this))
