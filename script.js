@@ -130,10 +130,14 @@ window.addEventListener('load', function(){
             this.color = 'black'
         }
         draw(context){
+            context.save()
             //score
             context.fillStyle = this.color
             context.font = this.fontSize + 'px ' + this.fontFamily
             context.fillText('Score: ' + this.game.score, 20, 40)
+
+            //timer
+
 
             //game over msgs
             if (this.game.gameOver){
@@ -155,8 +159,6 @@ window.addEventListener('load', function(){
             context.restore()
         }
 
-        
-        
     }
 
     class Game {
@@ -174,8 +176,10 @@ window.addEventListener('load', function(){
             this.gameOver = false
             this.score = 0
             this.winningScore = 10
+            this.gameTime = 0
         }
         update(deltaTime){
+            if (!this.gameOver) this.gameTime += deltaTime
             this.player.update()
             this.enemies.forEach(enemy =>{
                 enemy.update()
@@ -189,6 +193,7 @@ window.addEventListener('load', function(){
                         if(enemy.lives <= 0){
                             enemy.markedForDeletion = true
                             this.score += enemy.score
+                            if (!this.gameOver) this.score += enemy.score
                             if (this.score > this.winningScore) this.gameOver = true
                         }
                     }
