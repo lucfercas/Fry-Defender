@@ -15,3 +15,7 @@
 
   
 }
+
+#player, #enemy {
+    display: none;
+}
