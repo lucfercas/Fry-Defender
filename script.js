@@ -12,6 +12,8 @@ window.addEventListener('load', function(){
                     this.game.keys.push(e.key)
                 } else if (e.key === ' '){
                     this.game.player.shootTop()
+                } else if (e.key === 'd'){
+                    this.game.debug = !this.game.debug
                 }
             })
             window.addEventListener('keyup', e => {
@@ -51,12 +53,19 @@ window.addEventListener('load', function(){
     class Player {
         constructor(game){
             this.game = game
-            this.width = 50//ancho of frame del sprite
-            this.height = 50 //alto "..."
+            this.width = 70//ancho of frame del sprite
+            this.height = 70 //alto "..."
             this.x = 20
             this.y = 100
+            this.frameX = 0
+            this.frameY = 0
+            this.maxFrame = 6
             this.speedY = 2
             this.projectiles = []
+            this.image = document.getElementById('player')
+            this.frameDelay = 12; // Adjust this value to control the animation speed
+            this.frameDelayCounter = 0;
+
         }
         update(){
             if(this.game.keys.includes('ArrowUp')) this.speedY = -1
@@ -68,10 +77,22 @@ window.addEventListener('load', function(){
                 projectile.update()
             })
             this.projectiles = this.projectiles.filter(projectile => !projectile.markedForDeletion)
+            //sprite animation
+            if(this.frameX < this.maxFrame){
+                if (this.frameDelayCounter >= this.frameDelay) {
+                    this.frameX++;
+                    this.frameDelayCounter = 0;
+                  } else {
+                    this.frameDelayCounter++;
+                  }
+            } else {
+                this.frameX = 0
+            }
         }
         draw(context){
-            context.fillStyle = 'black'
-            context.fillRect(this.x, this.y, this.width, this.height)
+            if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
+            context.clearRect(this.x, this.y, this.width, this.height);
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
             this.projectiles.forEach(projectile => {
                 projectile.draw(context)
             }) 
@@ -85,14 +106,15 @@ window.addEventListener('load', function(){
     class Enemy {
         constructor(game){
             this.game = game
-            this.width = 80
-            this.height = 80
+            this.width = 38
+            this.height = 38
             this.x = this.game.width
             this.y = Math.random() * (this.game.height * 0.9 - this.height)
             this.speedX = Math.random() * -1.5 -0.5
             this.markedForDeletion = false
             this.lives = 1
             this.score = this.lives
+            this.image = document.getElementById('enemy')
 
 
         }
@@ -177,6 +199,8 @@ window.addEventListener('load', function(){
             this.score = 0
             this.winningScore = 10
             this.gameTime = 0
+            this.speed = 1
+            this.debug = true
         }
         update(deltaTime){
             if (!this.gameOver) this.gameTime += deltaTime
