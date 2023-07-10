@@ -16,6 +16,6 @@
   
 }
 
-#player, #enemy {
+#player, #enemy, #explosion {
     display: none;
 }
