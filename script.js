@@ -36,7 +36,7 @@ window.addEventListener('load', function(){
         }
         update(){
             this.x += this.speed
-            if(this.x > this.game.width * 0.8){
+            if(this.x > this.game.width){
                 this.markedForDeletion = true
             }
         }
@@ -47,8 +47,30 @@ window.addEventListener('load', function(){
 
     }
 
-    class Particle {
+    class Explosion {
+        constructor(game){
+            this.game = game
+            this.x = x - this.width * 0.5
+            this.y = y - this.height * 0.5
+            this.frameX = 0
+            this.spriteHeight = 85
+            this.spriteWidth = 92
+            this.width = this.spriteWidth
+            this.height = this.spriteHeight
+            this.fps = 15
+            this.timer = 0
+            this.interval = 1000/this.fps
+            this.markedForDeletion = false
+            this.image = document.getElementById('explosion')
+            this.maxFrame = 4
 
+        }
+        update(deltaTime){
+            this.frameX++
+        }
+        draw(context){
+            context.drawImage(this.image, this.x, this.y)
+        }
 
     }
 
@@ -61,19 +83,28 @@ window.addEventListener('load', function(){
             this.y = 100
             this.frameX = 0
             this.frameY = 0
-            this.maxFrame = 6
-            this.speedY = 2
+            this.maxFrame = 4
+            this.speedY = 0
+            this.maxSpeed = 3
             this.projectiles = []
             this.image = document.getElementById('player')
-            this.frameDelay = 12; // Adjust this value to control the animation speed
+
+            this.frameDelay = 16; // Adjust this value to control the animation speed
             this.frameDelayCounter = 0
+            
 
         }
-        update(){
+        update(deltaTime){
             if(this.game.keys.includes('ArrowUp')) this.speedY = -1
-            else if (this.game.keys.includes('ArrowDown')) this.speedY = 1
+            else if (this.game.keys.includes('ArrowDown')) this.speedY = this.maxSpeed
             else this.speedY = 0
             this.y += this.speedY
+            //vertical boundaries
+            if (this.y > this.game.height - this.height){ 
+                this.y = this.game.height - this.height
+            } else if (this.y < -this.height) this.y = -this.height
+            
+
             //handle projectiles
             this.projectiles.forEach(projectile => {
                 projectile.update()
@@ -119,7 +150,7 @@ window.addEventListener('load', function(){
             this.frameX = 0
             this.frameY = 0
             this.maxFrame = 4
-            this.frameDelay = 12; // Adjust this value to control the animation speed
+            this.frameDelay = 9; // Adjust this value to control the animation speed
             this.frameDelayCounter = 0
 
 
@@ -141,10 +172,14 @@ window.addEventListener('load', function(){
             }
         }
         draw(context){
+
             if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
-            context.font = '20px Helvetica'
-            context.fillText(this.lives, this.x, this.y)
+            if(this.game.debug){
+                context.font = '20px Helvetica'
+                context.fillText(this.lives, this.x, this.y)
+            }
+            
 
         }
 
@@ -208,6 +243,7 @@ window.addEventListener('load', function(){
             this.ui = new UI(this)
             this.keys = []
             this.enemies = []
+            this.explosion = []
             this.enemyTimer = 0
             this.enemyInterval = 1000
             this.gameOver = false
@@ -245,17 +281,27 @@ window.addEventListener('load', function(){
             } else {
                 this.enemyTimer += deltaTime
             }
+            this.explosion.forEach(explosion => explosion.update())
+            this.explosion = this.explosion.filter(explosion => !explosion.markedForDeletion)
 
         }
         draw(context){
+            this.ui.draw(context)
             this.player.draw(context)
             this.enemies.forEach(enemy => {
                 enemy.draw(context)
             })
-            this.ui.draw(context)
+            this.explosion.forEach(explosion => {
+                explosion.draw(context)
+            })
+            
         }
         addEnemy(){
             this.enemies.push(new Enemy(this))
+        }
+        addExplosion(enemy){
+            const randomize = Math.random()
+            if (this.randomize < 1) this.explosion.push(new Explosion(this, enemy.x, enemy.y))
         }
         checkCollision(rect1, rect2){
             return (
