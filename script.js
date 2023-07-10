@@ -36,7 +36,9 @@ window.addEventListener('load', function(){
         }
         update(){
             this.x += this.speed
-            if(this.x > this.game.width * 0.8) this.markedForDeletion = true
+            if(this.x > this.game.width * 0.8){
+                this.markedForDeletion = true
+            }
         }
         draw(context){
             context.fillStyle = 'yellow'
@@ -64,7 +66,7 @@ window.addEventListener('load', function(){
             this.projectiles = []
             this.image = document.getElementById('player')
             this.frameDelay = 12; // Adjust this value to control the animation speed
-            this.frameDelayCounter = 0;
+            this.frameDelayCounter = 0
 
         }
         update(){
@@ -91,7 +93,6 @@ window.addEventListener('load', function(){
         }
         draw(context){
             if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
-            context.clearRect(this.x, this.y, this.width, this.height);
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
             this.projectiles.forEach(projectile => {
                 projectile.draw(context)
@@ -115,6 +116,11 @@ window.addEventListener('load', function(){
             this.lives = 1
             this.score = this.lives
             this.image = document.getElementById('enemy')
+            this.frameX = 0
+            this.frameY = 0
+            this.maxFrame = 4
+            this.frameDelay = 12; // Adjust this value to control the animation speed
+            this.frameDelayCounter = 0
 
 
         }
@@ -123,11 +129,20 @@ window.addEventListener('load', function(){
             if(this.x + this.width < 0){
                 this.markedForDeletion = true
             }
+            if(this.frameX < this.maxFrame){
+                if (this.frameDelayCounter >= this.frameDelay) {
+                    this.frameX++;
+                    this.frameDelayCounter = 0;
+                  } else {
+                    this.frameDelayCounter++;
+                  }
+            } else {
+                this.frameX = 0
+            }
         }
         draw(context){
-            context.fillStyle = 'red'
-            context.fillRect(this.x, this.y, this.width, this.height)
-            context.fillStyle = 'black'
+            if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
             context.font = '20px Helvetica'
             context.fillText(this.lives, this.x, this.y)
 
