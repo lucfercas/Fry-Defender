@@ -48,10 +48,10 @@ window.addEventListener('load', function(){
     }
 
     class Explosion {
-        constructor(game){
+        constructor(game, x, y){
             this.game = game
-            this.x = x - this.width * 0.5
-            this.y = y - this.height * 0.5
+            this.x = x
+            this.y = y 
             this.frameX = 0
             this.spriteHeight = 85
             this.spriteWidth = 92
@@ -59,17 +59,24 @@ window.addEventListener('load', function(){
             this.height = this.spriteHeight
             this.fps = 15
             this.timer = 0
-            this.interval = 1000/this.fps
+            this.interval = 1000 / this.fps
             this.markedForDeletion = false
             this.image = document.getElementById('explosion')
             this.maxFrame = 4
-
         }
         update(deltaTime){
             this.frameX++
+            this.timer += deltaTime
+            if (this.timer > this.interval) {
+                this.frameX++
+                this.timer = 0
+            }
+            if (this.frameX >= this.maxFrame) {
+                this.markedForDeletion = true
+            }
         }
         draw(context){
-            context.drawImage(this.image, this.x, this.y)
+            context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
         }
 
     }
@@ -260,6 +267,7 @@ window.addEventListener('load', function(){
                 enemy.update()
                 if(this.checkCollision(this.player, enemy)){
                     enemy.markedForDeletion = true
+                    this.addExplosion(enemy)
                 }
                 this.player.projectiles.forEach(projectile => {
                     if(this.checkCollision(projectile, enemy)){
@@ -267,6 +275,7 @@ window.addEventListener('load', function(){
                         projectile.markedForDeletion = true
                         if(enemy.lives <= 0){
                             enemy.markedForDeletion = true
+                            this.addExplosion(enemy)
                             this.score += enemy.score
                             if (!this.gameOver) this.score += enemy.score
                             if (this.score > this.winningScore) this.gameOver = true
@@ -301,7 +310,7 @@ window.addEventListener('load', function(){
         }
         addExplosion(enemy){
             const randomize = Math.random()
-            if (this.randomize < 1) this.explosion.push(new Explosion(this, enemy.x, enemy.y))
+            if (randomize < 1) this.explosion.push(new Explosion(this, enemy.x, enemy.y))
         }
         checkCollision(rect1, rect2){
             return (
