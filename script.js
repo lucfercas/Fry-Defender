@@ -66,13 +66,11 @@ window.addEventListener('load', function(){
         }
         update(deltaTime){
             this.frameX++
-            this.timer += deltaTime
+            if (this.frameX > this.maxFrame) this.markedForDeletion = true
             if (this.timer > this.interval) {
                 this.frameX++
-                this.timer = 0
-            }
-            if (this.frameX >= this.maxFrame) {
-                this.markedForDeletion = true
+            } else {
+                this.timer += deltaTime
             }
         }
         draw(context){
