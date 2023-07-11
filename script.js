@@ -57,7 +57,7 @@ window.addEventListener('load', function(){
             this.spriteWidth = 92
             this.width = this.spriteWidth
             this.height = this.spriteHeight
-            this.fps = 15
+            this.fps = 25
             this.timer = 0
             this.interval = 1000 / this.fps
             this.markedForDeletion = false
@@ -65,10 +65,11 @@ window.addEventListener('load', function(){
             this.maxFrame = 4
         }
         update(deltaTime){
-            this.frameX++
+            // this.frameX++
             if (this.frameX > this.maxFrame) this.markedForDeletion = true
             if (this.timer > this.interval) {
                 this.frameX++
+                this.timer = 0
             } else {
                 this.timer += deltaTime
             }
@@ -288,7 +289,7 @@ window.addEventListener('load', function(){
             } else {
                 this.enemyTimer += deltaTime
             }
-            this.explosion.forEach(explosion => explosion.update())
+            this.explosion.forEach(explosion => explosion.update(deltaTime))
             this.explosion = this.explosion.filter(explosion => !explosion.markedForDeletion)
 
         }
