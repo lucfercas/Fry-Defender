@@ -22,6 +22,6 @@ canvas {
   
 }
 
-#player, #enemy, #explosion, #background {
+#player, #enemy, #explosion, #background, #playAgainButton {
     display: none;
 }
