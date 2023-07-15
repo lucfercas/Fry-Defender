@@ -276,7 +276,7 @@ window.addEventListener('load', function(){
             this.player.update()
             this.enemies.forEach(enemy =>{
                 enemy.update()
-                if(this.checkCollision(this.player, enemy)){
+                if(this.checkCollision(this.player, enemy)&& !this.gameOver){
                     enemy.markedForDeletion = true
                     this.addExplosion(enemy)
                 }
