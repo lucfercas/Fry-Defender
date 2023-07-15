@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+
+canvas {
+    background-color: antiquewhite;
+    background-image: url("beach.gif");
+    background-repeat: no-repeat;
+}
+
 #canvas1 {
     border: 5px solid black;
     position: absolute;
@@ -16,6 +23,6 @@
   
 }
 
-#player, #enemy, #explosion {
+#player, #enemy, #explosion, #background {
     display: none;
 }

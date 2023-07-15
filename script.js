@@ -191,10 +191,6 @@ window.addEventListener('load', function(){
 
     }
 
-    class Layer {
-        // Not needed I think 
-    }
-
     class Background {
         // Not needed I think
     }
