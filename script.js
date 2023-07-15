@@ -146,6 +146,10 @@ window.addEventListener('load', function(){
             }) 
         }
         shootTop() {
+            if (this.game.gameOver) {
+                return;
+              }
+
             const projectileX = this.x + this.width / 2; // Adjusted x position
             const projectileY = this.y + this.height / 2; // Adjusted y position
             this.projectiles.push(new Projectile(this.game, projectileX, projectileY));
@@ -261,13 +265,14 @@ window.addEventListener('load', function(){
             this.enemyInterval = 1000
             this.gameOver = false
             this.score = 0
-            this.winningScore = 10
+            this.winningScore = 100
             this.gameTime = 0
             this.speed = 1
 
         }
         update(deltaTime){
-            if (!this.gameOver) this.gameTime += deltaTime
+            if (!this.gameOver) 
+            this.gameTime += deltaTime
             this.player.update()
             this.enemies.forEach(enemy =>{
                 enemy.update()
