@@ -135,9 +135,12 @@ window.addEventListener('load', function(){
                 projectile.draw(context)
             }) 
         }
-        shootTop(){
-            this.projectiles.push(new Projectile(this.game, this.x, this.y))
-        }
+        shootTop() {
+            const projectileX = this.x + this.width / 2; // Adjusted x position
+            const projectileY = this.y + this.height / 2; // Adjusted y position
+            this.projectiles.push(new Projectile(this.game, projectileX, projectileY));
+          }
+          
 
     }
 
