@@ -83,8 +83,8 @@ window.addEventListener('load', function(){
     class Player {
         constructor(game){
             this.game = game
-            this.width = 70//ancho of frame del sprite
-            this.height = 70 //alto "..."
+            this.width = 70//sprite width
+            this.height = 70 //sprite heigh
             this.x = 20
             this.y = 100
             this.frameX = 0
@@ -111,6 +111,13 @@ window.addEventListener('load', function(){
                 this.y = this.game.height - this.height
             } else if (this.y < -this.height) this.y = -this.height
             
+            // Collision detection for Game Over
+            this.game.enemies.forEach(enemy => {
+                if (this.game.checkCollision(this, enemy)) {
+                    this.game.gameOver = true;
+               
+                }
+            });
 
             //handle projectiles
             this.projectiles.forEach(projectile => {
@@ -128,6 +135,7 @@ window.addEventListener('load', function(){
             } else {
                 this.frameX = 0
             }
+
         }
         draw(context){
             if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
@@ -179,6 +187,12 @@ window.addEventListener('load', function(){
                   }
             } else {
                 this.frameX = 0
+            }
+
+            // Collision detection with the player
+            if (this.game.checkCollision(this, this.game.player)) {
+                this.game.gameOver = true;
+            // Additional game over logic can be implemented here
             }
         }
         draw(context){
