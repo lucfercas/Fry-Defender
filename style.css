@@ -4,10 +4,10 @@
     box-sizing: border-box;
 }
 
-
 canvas {
     background-image: url("beach.gif");
     background-repeat: no-repeat;
+    z-index: 1
 }
 
 #canvas1 {
@@ -25,3 +25,36 @@ canvas {
 #player, #enemy, #explosion, #background, #playAgainButton {
     display: none;
 }
+
+#playAgainButton {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 2
+  }
+  
+  #playAgainButton:hover {
+    background-color: #45a049;
+  }
+  
+  #playAgainButton:active {
+    background-color: #3e8e41;
+    /* transform: translateY(2px); */
+  }
+
+  /* @media screen and (max-width: 500px) {
+    #playAgainButton {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10px;
+    }
+  } */
+  

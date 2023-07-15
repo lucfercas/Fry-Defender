@@ -370,7 +370,8 @@ window.addEventListener('load', function () {
     let lastTime = 0
 
 
-    playAgainButton.addEventListener('click', () => {
+    playAgainButton.addEventListener('click', (event) => {
+        event.preventDefault()
         game.playAgain();
     })
 
