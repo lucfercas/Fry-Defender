@@ -140,7 +140,6 @@ window.addEventListener('load', function(){
 
         }
         draw(context){
-            if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
             this.projectiles.forEach(projectile => {
                 projectile.draw(context)
@@ -198,15 +197,7 @@ window.addEventListener('load', function(){
             }
         }
         draw(context){
-
-            if(this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
-            if(this.game.debug){
-                context.font = '20px Helvetica'
-                context.fillText(this.lives, this.x, this.y)
-            }
-            
-
         }
 
     }
@@ -273,7 +264,7 @@ window.addEventListener('load', function(){
             this.winningScore = 10
             this.gameTime = 0
             this.speed = 1
-            this.debug = true
+
         }
         update(deltaTime){
             if (!this.gameOver) this.gameTime += deltaTime
