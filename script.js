@@ -107,10 +107,12 @@ window.addEventListener('load', function(){
             
             this.y += this.speedY
             //vertical boundaries
-            if (this.y > this.game.height - this.height){ 
-                this.y = this.game.height - this.height
-            } else if (this.y < -this.height) this.y = -this.height
-            
+            if (this.y < 0) {
+                this.y = 0;
+            } else if (this.y > this.game.height - this.height) {
+                this.y = this.game.height - this.height;
+            }
+
             // Collision detection for Game Over
             this.game.enemies.forEach(enemy => {
                 if (this.game.checkCollision(this, enemy)) {
@@ -336,6 +338,7 @@ window.addEventListener('load', function(){
     }
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0
+    
     //animation loop
     function animate(timeStamp){
         const deltaTime = timeStamp - lastTime
