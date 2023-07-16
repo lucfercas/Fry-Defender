@@ -53,20 +53,11 @@ canvas {
   /* transform: translateY(2px); */
 }
 
-/* @media screen and (max-width: 500px) {
-    #playAgainButton {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 10px;
-    }
-  } */
-
-  #repo {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    padding: 10px;
-  }
+#repo {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+}
