@@ -26,7 +26,7 @@ After creating all elements (graphics included), I began the process of understa
 
 The more complex the game turned, the more difficult it became to debug. 
 
-- I had to create a delay for the animations, as it was running too fast.
+- I had to create a delay for the animations, as they were running too fast.
 - I had to alter the sprite sheets mid game in order to fix white space flickering during the animations.
 - Had to fix and play with the physics of the game multiple times to make sure it was accurate.
 - Kept reminding myself to keep including most parameters into the Game class, otherwise they would not appear in the game at all.
