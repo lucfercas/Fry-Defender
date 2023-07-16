@@ -1,9 +1,18 @@
 window.addEventListener('load', function () {
+    const GitHubBtn = document.getElementById("repo")
     const playAgainButton = document.getElementById('playAgainButton');
     const canvas = document.getElementById("canvas1")
     const ctx = canvas.getContext('2d')
     canvas.width = 500
     canvas.height = 500
+
+    GitHubBtn.addEventListener("click", () => {
+        GoToRepo();
+    });
+    
+    function GoToRepo() {
+        window.open("https://github.com/lucfercas/NEW-Game", '_blank');
+    }
 
     class InputHandler {
         constructor(game) {
