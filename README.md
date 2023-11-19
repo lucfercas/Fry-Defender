@@ -1,4 +1,4 @@
-# Game
+# Fry Defender
 
 **To game:** https://lucfercas.github.io/NEW-Game/
 
