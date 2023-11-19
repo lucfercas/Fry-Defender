@@ -9,9 +9,9 @@ If the gulls manage to eat the chips, the game ends.
 # Mechanics
 
 How to play:
-▲ move up
-▼ move down
-**space** shoot
+- ▲ move up
+- ▼ move down
+- **space** shoot
 
 # Planning
 
