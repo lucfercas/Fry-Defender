@@ -1,6 +1,6 @@
 # Fry Defender
 
-**To game:** https://lucfercas.github.io/NEW-Game/
+**Play here:** https://lucfercas.github.io/NEW-Game/
 
 This rpg inspired shooter takes the player to a (hopefully, for comedy purposes) familiar scene where a portion of chips is meant to be enjoyed at the beach. Unfortunately, there are enemies afoot. In this game, the user impersonates a portion of chips that fight the numerous seagulls that are determined to have a big lunch. 
 
